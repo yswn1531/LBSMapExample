@@ -1,4 +1,4 @@
-package com.sesac.lbsmaphw
+package com.sesac.lbsmapexample
 
 import org.junit.Test
 

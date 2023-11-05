@@ -1,4 +1,4 @@
-package com.sesac.lbsmaphw.common
+package com.sesac.lbsmapexample.common
 
 import android.app.Application
 

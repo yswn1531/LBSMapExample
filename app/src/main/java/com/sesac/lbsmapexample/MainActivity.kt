@@ -1,4 +1,4 @@
-package com.sesac.lbsmaphw
+package com.sesac.lbsmapexample
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -26,9 +26,10 @@ import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.location.Priority
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.Task
-import com.sesac.lbsmaphw.common.PermissionCheck
-import com.sesac.lbsmaphw.common.YoonPreferenceManager
-import com.sesac.lbsmaphw.databinding.ActivityMainBinding
+import com.sesac.lbsmapexample.databinding.ActivityMainBinding
+import com.sesac.lbsmapexample.common.PermissionCheck
+import com.sesac.lbsmapexample.common.YoonPreferenceManager
+
 
 const val LBS_CHECK_TAG = "LBS_CHECK_TAG"
 const val LBS_CHECK_CODE = 100

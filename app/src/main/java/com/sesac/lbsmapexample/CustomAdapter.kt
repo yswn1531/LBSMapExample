@@ -1,4 +1,4 @@
-package com.sesac.lbsmaphw
+package com.sesac.lbsmapexample
 
 import android.view.LayoutInflater
 import android.view.View

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.sesac.lbsmaphw"
+    namespace = "com.sesac.lbsmapexample"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.sesac.lbsmaphw"
+        applicationId = "com.sesac.lbsmapexmaple"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

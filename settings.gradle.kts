@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "LBSMapHW"
+rootProject.name = "LBSMapExample"
 include(":app")
  
