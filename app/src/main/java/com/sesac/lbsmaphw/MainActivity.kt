@@ -50,10 +50,9 @@ class MainActivity : AppCompatActivity() {
         if (!YoonPreferenceManager.getInstance().isPermission) {
             permissionCheck()
         }
-        if (isNetworkAvailable()) { //현재 단말기의 네트워크 가능여부를 알아내고 시작한다
+        if (isNetworkAvailable()) {
             checkLocationCurrentDevice()
         } else {
-            Log.e(LBS_CHECK_TAG, "네트웍연결되지 않음!")
             Toast.makeText(
                 applicationContext,
                 "네트웍이 연결되지 않아 종료합니다", Toast.LENGTH_SHORT
@@ -71,12 +70,9 @@ class MainActivity : AppCompatActivity() {
             val nw = cm.activeNetwork ?: return false
             val networkCapabilities = cm.getNetworkCapabilities(nw) ?: return false
             return when {
-                //현재 단말기의 연결유무(Wifi, Data 통신)
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                //단말기가 아닐경우(ex:: IoT 장비등)
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                //블루투스 인터넷 연결유뮤
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
                 else -> false
             }
@@ -94,8 +90,8 @@ class MainActivity : AppCompatActivity() {
                  * 정확한 위치를 기다림: true 일시 지하, 이동 중일 경우 늦어질 수 있음
                  */
                 .setWaitForAccurateLocation(true)
-                .setMinUpdateIntervalMillis(locationIntervalTime) //위치 획득 후 update 되는 최소 주기
-                .setMaxUpdateDelayMillis(locationIntervalTime).build() //위치 획득 후 update delay 최대 주기
+                .setMinUpdateIntervalMillis(locationIntervalTime)
+                .setMaxUpdateDelayMillis(locationIntervalTime).build()
 
 
         val lbsSettingsRequest: LocationSettingsRequest =
@@ -113,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
             /**
-             *  addOnSuccessListener가 비동기식 처리라 resume보다 나중에 되면 값을 띄워주지 않음
+             *  addOnSuccessListener가 비동기식 처리라 처음 permissionRequest를 하고 resume보다 나중에 되면 값을 띄워주지 않음
              */
             if (PermissionCheck(applicationContext, this).currentAppCheckPermission()) getGPS()
         }
@@ -172,7 +168,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    /**
+     *  RecyclerView에 GPS값을 반영하는 LocationCallback
+     */
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
+        @SuppressLint("NotifyDataSetChanged")
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.locations[0]
@@ -182,11 +182,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        if (PermissionCheck(applicationContext, this).currentAppCheckPermission()) getGPS()
-    }
-
+    /**
+     * Get GPS
+     *
+     *  5초마다 gps를 얻는 함수
+     */
     @SuppressLint("MissingPermission")
     private fun getGPS() {
         val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000L)
@@ -199,5 +199,10 @@ class MainActivity : AppCompatActivity() {
             mLocationCallback,
             Looper.getMainLooper()
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (PermissionCheck(applicationContext, this).currentAppCheckPermission()) getGPS()
     }
 }
